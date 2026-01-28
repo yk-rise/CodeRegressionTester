@@ -1,0 +1,9 @@
+Input array: 42 17 89 23 56 78 3 91 34 65 12 48 87 25 59 71 8 96 41 33 
+Sorted array: 3 8 12 17 23 25 33 34 41 42 48 56 59 65 71 78 87 89 91 96 
+Array length: 20
+Minimum: 3
+Maximum: 96
+Mean: 48.9000
+Variance: 839.1900
+Standard deviation: 28.9688
+Median: 45

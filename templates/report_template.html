@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 报告头部 -->
+        <header class="report-header">
+            <h1>{{ title }}</h1>
+            <div class="report-meta">
+                <p><strong>生成时间:</strong> {{ generated_time }}</p>
+                {% if config.version_a_source %}
+                <p><strong>版本A:</strong> {{ config.version_a_source }}</p>
+                {% endif %}
+                {% if config.version_b_source %}
+                <p><strong>版本B:</strong> {{ config.version_b_source }}</p>
+                {% endif %}
+                {% if config.test_data_dir %}
+                <p><strong>测试数据:</strong> {{ config.test_data_dir }}</p>
+                {% endif %}
+            </div>
+        </header>
+
+        <!-- 测试概览 -->
+        <section class="summary">
+            <h2>测试概览</h2>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3>总测试数</h3>
+                    <p class="summary-value">{{ summary.total_tests }}</p>
+                </div>
+                <div class="summary-card pass">
+                    <h3>通过</h3>
+                    <p class="summary-value">{{ summary.passed_tests }}</p>
+                </div>
+                <div class="summary-card fail">
+                    <h3>失败</h3>
+                    <p class="summary-value">{{ summary.failed_tests }}</p>
+                </div>
+                <div class="summary-card warning">
+                    <h3>警告</h3>
+                    <p class="summary-value">{{ summary.warning_tests }}</p>
+                </div>
+                <div class="summary-card">
+                    <h3>通过率</h3>
+                    <p class="summary-value">{{ summary.pass_rate }}</p>
+                </div>
+                <div class="summary-card">
+                    <h3>平均执行时间</h3>
+                    <p class="summary-value">{{ summary.avg_execution_time }}</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 图表分析 -->
+        {% if charts %}
+        <section class="charts">
+            <h2>图表分析</h2>
+            <div class="charts-grid">
+                {% if charts.status_distribution %}
+                <div class="chart-container">
+                    <h3>测试状态分布</h3>
+                    <img src="{{ charts.status_distribution }}" alt="状态分布图" class="chart-image">
+                </div>
+                {% endif %}
+                
+                {% if charts.error_analysis %}
+                <div class="chart-container">
+                    <h3>误差分析</h3>
+                    <img src="{{ charts.error_analysis }}" alt="误差分析图" class="chart-image">
+                </div>
+                {% endif %}
+                
+                {% if charts.execution_time %}
+                <div class="chart-container">
+                    <h3>执行时间趋势</h3>
+                    <img src="{{ charts.execution_time }}" alt="执行时间图" class="chart-image">
+                </div>
+                {% endif %}
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- 误差统计 -->
+        {% if error_summary %}
+        <section class="error-summary">
+            <h2>误差统计汇总</h2>
+            <div class="error-table-container">
+                <table class="error-table">
+                    <thead>
+                        <tr>
+                            <th>指标</th>
+                            <th>平均值</th>
+                            <th>最小值</th>
+                            <th>最大值</th>
+                            <th>标准差</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if error_summary.mae %}
+                        <tr>
+                            <td>平均绝对误差 (MAE)</td>
+                            <td>{{ "%.2e"|format(error_summary.mae.mean) }}</td>
+                            <td>{{ "%.2e"|format(error_summary.mae.min) }}</td>
+                            <td>{{ "%.2e"|format(error_summary.mae.max) }}</td>
+                            <td>{{ "%.2e"|format(error_summary.mae.std) }}</td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if error_summary.rmse %}
+                        <tr>
+                            <td>均方根误差 (RMSE)</td>
+                            <td>{{ "%.2e"|format(error_summary.rmse.mean) }}</td>
+                            <td>{{ "%.2e"|format(error_summary.rmse.min) }}</td>
+                            <td>{{ "%.2e"|format(error_summary.rmse.max) }}</td>
+                            <td>{{ "%.2e"|format(error_summary.rmse.std) }}</td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if error_summary.max_error %}
+                        <tr>
+                            <td>最大误差</td>
+                            <td>{{ "%.2e"|format(error_summary.max_error.mean) }}</td>
+                            <td>{{ "%.2e"|format(error_summary.max_error.min) }}</td>
+                            <td>{{ "%.2e"|format(error_summary.max_error.max) }}</td>
+                            <td>-</td>
+                        </tr>
+                        {% endif %}
+                        
+                        {% if error_summary.correlation %}
+                        <tr>
+                            <td>相关系数</td>
+                            <td>{{ "%.3f"|format(error_summary.correlation.mean) }}</td>
+                            <td>{{ "%.3f"|format(error_summary.correlation.min) }}</td>
+                            <td>{{ "%.3f"|format(error_summary.correlation.max) }}</td>
+                            <td>-</td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- 详细结果 -->
+        <section class="detailed-results">
+            <h2>详细测试结果</h2>
+            <div class="results-table-container">
+                <table class="results-table">
+                    <thead>
+                        <tr>
+                            <th>测试用例</th>
+                            <th>状态</th>
+                            <th>相似度</th>
+                            <th>版本A执行时间</th>
+                            <th>版本B执行时间</th>
+                            <th>版本A返回码</th>
+                            <th>版本B返回码</th>
+                            <th>差异数量</th>
+                            <th>详情</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for result in results %}
+                        <tr class="result-row {{ result.overall_status.lower() }}">
+                            <td>{{ result.test_case }}</td>
+                            <td>
+                                <span class="status-badge {{ result.overall_status.lower() }}">
+                                    {{ result.overall_status }}
+                                </span>
+                            </td>
+                            <td>{{ "%.3f"|format(result.similarity_score) }}</td>
+                            <td>
+                                {% if result.version_a_result %}
+                                    {{ "%.3f"|format(result.version_a_result.execution_time) }}s
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if result.version_b_result %}
+                                    {{ "%.3f"|format(result.version_b_result.execution_time) }}s
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if result.version_a_result %}
+                                    {{ result.version_a_result.return_code }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if result.version_b_result %}
+                                    {{ result.version_b_result.return_code }}
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                            <td>{{ result.differences|length }}</td>
+                            <td>
+                                <button class="detail-btn" onclick="toggleDetail('detail-{{ loop.index0 }}')">
+                                    查看
+                                </button>
+                            </td>
+                        </tr>
+                        
+                        <!-- 详细信息行 -->
+                        <tr id="detail-{{ loop.index0 }}" class="detail-row" style="display: none;">
+                            <td colspan="9">
+                                <div class="detail-content">
+                                    <!-- 误差指标 -->
+                                    {% if result.error_metrics %}
+                                    <div class="detail-section">
+                                        <h4>误差指标</h4>
+                                        <div class="error-metrics">
+                                            <div class="metric">
+                                                <span class="metric-label">MAE:</span>
+                                                <span class="metric-value">{{ "%.2e"|format(result.error_metrics.mae) }}</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">MSE:</span>
+                                                <span class="metric-value">{{ "%.2e"|format(result.error_metrics.mse) }}</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">RMSE:</span>
+                                                <span class="metric-value">{{ "%.2e"|format(result.error_metrics.rmse) }}</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">最大误差:</span>
+                                                <span class="metric-value">{{ "%.2e"|format(result.error_metrics.max_error) }}</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">相对误差:</span>
+                                                <span class="metric-value">{{ "%.2e"|format(result.error_metrics.relative_error) }}</span>
+                                            </div>
+                                            <div class="metric">
+                                                <span class="metric-label">相关系数:</span>
+                                                <span class="metric-value">{{ "%.3f"|format(result.error_metrics.correlation) }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <!-- 差异详情 -->
+                                    {% if result.differences %}
+                                    <div class="detail-section">
+                                        <h4>差异详情 (前10个)</h4>
+                                        <div class="differences">
+                                            {% for diff in result.differences[:10] %}
+                                            <div class="difference-item {{ diff.type }}">
+                                                <div class="diff-header">
+                                                    <span class="diff-line">行 {{ diff.line_number }}</span>
+                                                    <span class="diff-type">{{ diff.type }}</span>
+                                                </div>
+                                                <div class="diff-content">{{ diff.content }}</div>
+                                                {% if diff.context %}
+                                                <div class="diff-context">
+                                                    <pre>{{ diff.context }}</pre>
+                                                </div>
+                                                {% endif %}
+                                            </div>
+                                            {% endfor %}
+                                            
+                                            {% if result.differences|length > 10 %}
+                                            <p class="more-differences">... 还有 {{ result.differences|length - 10 }} 个差异</p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <!-- 执行输出 -->
+                                    {% if result.version_a_result and result.version_a_result.stdout %}
+                                    <div class="detail-section">
+                                        <h4>版本A输出</h4>
+                                        <pre class="output-content">{{ result.version_a_result.stdout }}</pre>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    {% if result.version_b_result and result.version_b_result.stdout %}
+                                    <div class="detail-section">
+                                        <h4>版本B输出</h4>
+                                        <pre class="output-content">{{ result.version_b_result.stdout }}</pre>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <!-- 错误信息 -->
+                                    {% if result.version_a_result and result.version_a_result.stderr %}
+                                    <div class="detail-section">
+                                        <h4>版本A错误</h4>
+                                        <pre class="error-content">{{ result.version_a_result.stderr }}</pre>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    {% if result.version_b_result and result.version_b_result.stderr %}
+                                    <div class="detail-section">
+                                        <h4>版本B错误</h4>
+                                        <pre class="error-content">{{ result.version_b_result.stderr }}</pre>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 报告尾部 -->
+        <footer class="report-footer">
+            <p>报告由代码回灌测试系统生成 | {{ generated_time }}</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleDetail(detailId) {
+            const detailRow = document.getElementById(detailId);
+            if (detailRow.style.display === 'none') {
+                detailRow.style.display = 'table-row';
+            } else {
+                detailRow.style.display = 'none';
+            }
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 可以添加一些交互功能
+            console.log('报告页面加载完成');
+        });
+    </script>
+</body>
+</html>

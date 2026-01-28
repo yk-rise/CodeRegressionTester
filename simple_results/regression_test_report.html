@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Regression Test Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { background: #f0f0f0; padding: 10px; border-radius: 5px; }
+        .test-result { margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 3px; }
+        .pass { background-color: #d4edda; border-color: #c3e6cb; }
+        .fail { background-color: #f8d7da; border-color: #f5c6cb; }
+        .diff { font-family: monospace; font-size: 12px; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Code Regression Test Report</h1>
+        <p>Generated on: regression_test_report.html</p>
+    </div>
+    
+    <h2>Test Summary</h2>
+    <table>
+        <tr>
+            <th>Total Tests</th>
+            <th>Passed</th>
+            <th>Failed</th>
+            <th>Success Rate</th>
+        </tr>
+
+        <tr>
+            <td>3</td>
+            <td>0</td>
+            <td>3</td>
+            <td>0.0%</td>
+        </tr>
+    </table>
+    
+    <h2>Test Details</h2>
+
+    <div class="test-result fail">
+        <h3>Test_001_large_array - FAIL</h3>
+        <p><strong>File:</strong> examples\test_data\array_test_data\large_array.input</p>
+        <p><strong>Status:</strong> Found 8 differences</p>
+        <p><strong>Version A Output:</strong></p>
+        <pre class="diff">Original array: 15 28 33 41 52 47 39 61 24 37 55 43 29 58 31 46 22 67 35 49 26 51 38 63 44 
+Sorted array: 15 22 24 26 28 29 31 33 35 37 38 39 41 43 44 46 47 49 51 52 55 58 61 63 67 
+Array size: 25
+Min element: 15
+Max element: 67
+Average: 41.36
+</pre>
+        <p><strong>Version B Output:</strong></p>
+        <pre class="diff">Input array: 15 28 33 41 52 47 39 61 24 37 55 43 29 58 31 46 22 67 35 49 26 51 38 63 44 
+Sorted array: 15 22 24 26 28 29 31 33 35 37 38 39 41 43 44 46 47 49 51 52 55 58 61 63 67 
+Array length: 25
+Minimum: 15
+Maximum: 67
+Mean: 41.3600
+Variance: 179.7504
+Standard deviation: 13.4071
+Median: 41
+</pre>
+<p><strong>Differences:</strong></p><table><tr><th>Line</th><th>Version A</th><th>Version B</th></tr>
+                <tr>
+                    <td>1</td>
+                    <td>Original array: 15 28 33 41 52 47 39 61 24 37 55 43 29 58 31 46 22 67 35 49 26 51 38 63 44 </td>
+                    <td>Input array: 15 28 33 41 52 47 39 61 24 37 55 43 29 58 31 46 22 67 35 49 26 51 38 63 44 </td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>Array size: 25</td>
+                    <td>Array length: 25</td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>Min element: 15</td>
+                    <td>Minimum: 15</td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>Max element: 67</td>
+                    <td>Maximum: 67</td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>Average: 41.36</td>
+                    <td>Mean: 41.3600</td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td><MISSING></td>
+                    <td>Variance: 179.7504</td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td><MISSING></td>
+                    <td>Standard deviation: 13.4071</td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td><MISSING></td>
+                    <td>Median: 41</td>
+                </tr>
+</table></div>
+    <div class="test-result fail">
+        <h3>Test_002_medium_array - FAIL</h3>
+        <p><strong>File:</strong> examples\test_data\array_test_data\medium_array.input</p>
+        <p><strong>Status:</strong> Found 8 differences</p>
+        <p><strong>Version A Output:</strong></p>
+        <pre class="diff">Original array: 42 17 89 23 56 78 3 91 34 65 12 48 87 25 59 71 8 96 41 33 
+Sorted array: 3 8 12 17 23 25 33 34 41 42 48 56 59 65 71 78 87 89 91 96 
+Array size: 20
+Min element: 3
+Max element: 96
+Average: 48.90
+</pre>
+        <p><strong>Version B Output:</strong></p>
+        <pre class="diff">Input array: 42 17 89 23 56 78 3 91 34 65 12 48 87 25 59 71 8 96 41 33 
+Sorted array: 3 8 12 17 23 25 33 34 41 42 48 56 59 65 71 78 87 89 91 96 
+Array length: 20
+Minimum: 3
+Maximum: 96
+Mean: 48.9000
+Variance: 839.1900
+Standard deviation: 28.9688
+Median: 45
+</pre>
+<p><strong>Differences:</strong></p><table><tr><th>Line</th><th>Version A</th><th>Version B</th></tr>
+                <tr>
+                    <td>1</td>
+                    <td>Original array: 42 17 89 23 56 78 3 91 34 65 12 48 87 25 59 71 8 96 41 33 </td>
+                    <td>Input array: 42 17 89 23 56 78 3 91 34 65 12 48 87 25 59 71 8 96 41 33 </td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>Array size: 20</td>
+                    <td>Array length: 20</td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>Min element: 3</td>
+                    <td>Minimum: 3</td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>Max element: 96</td>
+                    <td>Maximum: 96</td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>Average: 48.90</td>
+                    <td>Mean: 48.9000</td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td><MISSING></td>
+                    <td>Variance: 839.1900</td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td><MISSING></td>
+                    <td>Standard deviation: 28.9688</td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td><MISSING></td>
+                    <td>Median: 45</td>
+                </tr>
+</table></div>
+    <div class="test-result fail">
+        <h3>Test_003_small_array - FAIL</h3>
+        <p><strong>File:</strong> examples\test_data\array_test_data\small_array.input</p>
+        <p><strong>Status:</strong> Found 8 differences</p>
+        <p><strong>Version A Output:</strong></p>
+        <pre class="diff">Original array: 5 2 8 1 9 3 7 4 6 
+Sorted array: 1 2 3 4 5 6 7 8 9 
+Array size: 9
+Min element: 1
+Max element: 9
+Average: 5.00
+</pre>
+        <p><strong>Version B Output:</strong></p>
+        <pre class="diff">Input array: 5 2 8 1 9 3 7 4 6 
+Sorted array: 1 2 3 4 5 6 7 8 9 
+Array length: 9
+Minimum: 1
+Maximum: 9
+Mean: 5.0000
+Variance: 6.6667
+Standard deviation: 2.5820
+Median: 5
+</pre>
+<p><strong>Differences:</strong></p><table><tr><th>Line</th><th>Version A</th><th>Version B</th></tr>
+                <tr>
+                    <td>1</td>
+                    <td>Original array: 5 2 8 1 9 3 7 4 6 </td>
+                    <td>Input array: 5 2 8 1 9 3 7 4 6 </td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>Array size: 9</td>
+                    <td>Array length: 9</td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>Min element: 1</td>
+                    <td>Minimum: 1</td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>Max element: 9</td>
+                    <td>Maximum: 9</td>
+                </tr>
+
+                <tr>
+                    <td>6</td>
+                    <td>Average: 5.00</td>
+                    <td>Mean: 5.0000</td>
+                </tr>
+
+                <tr>
+                    <td>7</td>
+                    <td><MISSING></td>
+                    <td>Variance: 6.6667</td>
+                </tr>
+
+                <tr>
+                    <td>8</td>
+                    <td><MISSING></td>
+                    <td>Standard deviation: 2.5820</td>
+                </tr>
+
+                <tr>
+                    <td>9</td>
+                    <td><MISSING></td>
+                    <td>Median: 5</td>
+                </tr>
+</table></div>
+</body>
+</html>
